@@ -57,33 +57,36 @@ filtered to 30–500 characters), and then pre-labeled using Claude (`scripts/pr
 with the full label definitions and decision rules from `planning.md`. Every AI pre-label
 was reviewed and corrected individually. The final labels reflect human judgment.
 
-**Label distribution:**
+**Label distribution:** (207 labeled comments)
 
 | Label | Count | % |
 |-------|-------|---|
-| analysis | — | — |
-| hot_take | — | — |
-| reaction | — | — |
-| **Total** | **—** | **100%** |
+| analysis | 95 | 45.9% |
+| hot_take | 70 | 33.8% |
+| reaction | 42 | 20.3% |
+| **Total** | **207** | **100%** |
 
-*(Fill in after annotation is complete)*
+The set skews toward `analysis` because the most productive collection sources were
+post-match and Test-match discussion threads (Trent Bridge 2021, Gabba 2021, the 2019
+Ashes preview, IPL daily threads), which are dense with evidence-driven argument. Every
+class clears the 20% floor and none exceeds 70%, so no single label dominates.
 
 ### Difficult-to-Label Examples
 
-**Example 1:** *(To be filled during annotation)*
-- Post: 
-- Ambiguity: 
-- Decision: 
+**Example 1 — dismissive framing wrapped around real evidence:**
+- Post: *"Lol at Aussies and neutrals thinking our attack needs a 90+ bowler. You don't need pace in England to be successful. We've got a brilliant opening pair, a superb bowler in Woakes, the best all-rounder in the world, plus a spinner averaging 21 at home since 2017. Our bowling is not a concern."*
+- Ambiguity: The "Lol at people who think X" opening and the confident conclusion read like a `hot_take`, but the body cites specific, verifiable evidence (a spinner's home average) and reasons from English conditions.
+- Decision: **analysis.** Per the decision rule, the evidence *drives* the argument rather than decorating it — removing the stat and the conditions reasoning would gut the claim. Dismissive tone alone doesn't make something a hot take.
 
-**Example 2:** *(To be filled during annotation)*
-- Post: 
-- Ambiguity: 
-- Decision: 
+**Example 2 — neutral factual trivia that fits no label cleanly:**
+- Post: *"The Padma awards are civilian honours — Shri is the 4th tier; above it are Bhushan, Vibhushan, and Bharat Ratna, the highest honour. Sachin is the only sportsperson to have earned Bharat Ratna (rather controversially). Unless you're Dhoni."*
+- Ambiguity: It's an informational reply with no emotional content (so not obviously `reaction`) and no argument about cricket quality (so not `analysis` or `hot_take`).
+- Decision: **reaction.** No claim is being advanced and the evidence isn't supporting any argument — it's registering/sharing information in the moment, which is closest to `reaction`. Flagged as a borderline case worth dropping if rebalancing.
 
-**Example 3:** *(To be filled during annotation)*
-- Post: 
-- Ambiguity: 
-- Decision: 
+**Example 3 — a self-declared "hot take" that argues like analysis:**
+- Post: *"Hot take: Iyer and Rajat Patidar deserve India spots over Tilak and SKY right now. Both have been the most consistent batters this IPL, converting starts and performing under pressure match after match. Form over reputation. Selectors, take note."*
+- Ambiguity: The author literally labels it a hot take, and the framing is assertive — but it does offer a rationale (consistency, form over reputation).
+- Decision: **hot_take.** The "evidence" is a general assertion ("most consistent," "performing under pressure") with no specific figures or comparison to back it; removing it leaves the same confident claim intact. That's decoration, not reasoning — the planning.md test for `hot_take`.
 
 ---
 
@@ -241,17 +244,22 @@ before labeling any, but I found I needed to annotate the first 30 to finalize m
 ## AI Usage
 
 **Instance 1 — Label stress-testing:**
-Ran `scripts/stress_test_labels.py` which prompted Claude to generate 8 boundary cases between
-`analysis` and `hot_take`. Several cases exposed ambiguity in my original definition: posts
-that cited a stat but used it for rhetorical effect. This led me to add the explicit decision
-rule in `planning.md`: "if removing the stat would leave a claim that still feels confident and
-complete, label it hot_take." I discarded 2 of the 8 generated cases as unrealistic
-(they were too clearly one label).
+Ran `scripts/stress_test_labels.py` (Groq `llama-3.3-70b-versatile`) to generate 16 boundary
+comments — 8 each across the `analysis`↔`hot_take` and `hot_take`↔`reaction` boundaries.
+Applying my draft rules to them exposed two gaps: a *bare tactical observation* (a technical
+claim asserted with no development) and an *unsourced quantified estimate* (a specific-sounding
+number with no basis) both read as `analysis` under my original definition. I added two explicit
+decision rules to `planning.md` to resolve them before annotating.
 
 **Instance 2 — Pre-labeling assistance:**
-Used `scripts/prelabel.py` to pre-label batches of 20 comments at a time using Claude.
-Reviewed and corrected every AI-assigned label individually. Override rate: *(fill in after annotation)*.
-All pre-labeled rows are tracked with `label_source = "ai"` in the dataset.
+Used `scripts/prelabel.py` (Groq `llama-3.3-70b-versatile`) to pre-label all 207 collected
+comments. I then reviewed every label against the planning.md rules and corrected **46 of 207
+(22.2% override rate)**. The corrections were overwhelmingly `hot_take` → `analysis`: the model
+systematically over-applied `hot_take`, keying on confident framing even when specific evidence
+was actually driving the argument. Kept labels are tracked as `label_source = "ai"` and corrected
+labels as `label_source = "human"` in `data/labeled_comments.csv`. *(Disclosure: comment
+collection/cleaning and the review pass were done with AI coding-assistant help; final labels
+were reviewed by me.)*
 
 **Instance 3 — Failure pattern analysis:**
 *(Fill in after fine-tuning — describe what you asked the AI to find, what it identified,

@@ -61,6 +61,22 @@ An immediate emotional or social response to something that just happened — a 
 
 **Decision rule:** If the emotional language is the frame but there's an actual claim being advanced (however loosely), label it `hot_take`. `reaction` is reserved for posts that are *purely* expressive — responding to a moment with feeling, not making any argument at all.
 
+### Refined Rule (added after label stress-test): Bare Tactical Observation
+
+**The post:** "Warner's technique is all wrong, he's got a huge hole in his defense on the off side, just wait till he faces a quality swing bowler — he'll be found out."
+
+**Why it's ambiguous:** My `analysis` definition lists "tactical observations" as qualifying evidence, so a technical claim about an off-side weakness *looks* like analysis. But here the observation is asserted, not developed — no mechanism, no conditions, no supporting record — and the framing ("he'll be found out") is a confident prediction.
+
+**Decision rule:** A tactical observation counts as `analysis` only if it is *developed* with specifics — the mechanism, the conditions under which it applies, or a comparison. A bare assertion of a flaw, even a technical one, delivered with confident framing is a `hot_take`. The test: does the post explain *why* the flaw matters, or just declare that it does?
+
+### Refined Rule (added after label stress-test): Praise / Unsourced Quantified Estimate
+
+**The posts:** (a) "I love how Pant just goes out there and smashes it, no fear at all — he's the future of Indian cricket." (b) "Pant's keeping is a liability, just check the byes and stumpings — he's costing us at least 20 runs per match."
+
+**Why it's ambiguous:** (a) is mostly excitement but slips in a claim ("future of Indian cricket"); (b) cites a specific-sounding number that looks like evidence.
+
+**Decision rule:** Expressive praise or excitement that name-drops a quality ("classy," "the future," "unplayable") but makes no argument is `reaction` — the quality label is part of the feeling, not a claim being defended. A specific-sounding number that is *asserted without sourcing or comparison* (e.g. "costing us 20 runs/match" with no basis shown) is still decoration → `hot_take`, not `analysis`. A real `analysis` post would show where the number comes from or what it's measured against.
+
 ---
 
 ## 4. Data Collection Plan
