@@ -1,0 +1,23 @@
+# Credentials — never commit these
+.env
+secrets.py
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Data artifacts (commit labeled_comments.csv but not raw scrapes)
+data/raw_comments.csv
+data/prelabeled.csv
+data/stress_test_cases.json
+
+# Colab outputs (commit these after downloading)
+# outputs/evaluation_results.json
+# outputs/confusion_matrix.png
+
+# OS
+.DS_Store
+Thumbs.db

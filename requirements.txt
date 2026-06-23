@@ -1,0 +1,8 @@
+# Local data pipeline (scrape → stress-test → pre-label).
+# Fine-tuning runs on Google Colab, where transformers/datasets/torch/sklearn
+# are pre-installed — those are NOT needed locally and are intentionally omitted.
+
+praw>=7.7            # Reddit API wrapper (scrape_reddit.py)
+pandas>=2.0          # CSV handling (scrape_reddit.py, prelabel.py)
+groq>=0.11           # Groq API client (prelabel.py, stress_test_labels.py)
+python-dotenv>=1.0   # loads GROQ_API_KEY from .env (prelabel.py, stress_test_labels.py)
